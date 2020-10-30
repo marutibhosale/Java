@@ -2,11 +2,13 @@
 // *****************************************  Welcome  ***************************************//
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 interface IComputeEmpWage {
     public void addCompanyEmpWage(String company, int empRatePerHour,int numOfWorkingDays,
                                      int maxHoursPerMonth);
     public void computeEmpWage();
+    public int getTotalWage(String company);
 
 }
 
@@ -15,10 +17,12 @@ public class  EmpWageComputationDay23 implements IComputeEmpWage {
       public static final int IS_FULL_TIME = 2;
 
       private ArrayList<CompanyEmpWage> companyEmpWageList;
+      private HashMap<String, CompanyEmpWage> companyToEmpWageMap;
 
 
      public EmpWageComputationDay23(){
            companyEmpWageList = new ArrayList<>();
+           companyToEmpWageMap = new HashMap<>();
      }
 
 
@@ -28,6 +32,7 @@ public class  EmpWageComputationDay23 implements IComputeEmpWage {
             CompanyEmpWage companyEmpWage = new CompanyEmpWage(company, empRatePerHour,
                                                                     numOfWorkingDays, maxHoursPerMonth);
             companyEmpWageList.add(companyEmpWage);
+            companyToEmpWageMap.put(company, companyEmpWage);
      }
 
      public void computeEmpWage(){
@@ -66,12 +71,19 @@ public class  EmpWageComputationDay23 implements IComputeEmpWage {
 
      }
 
+     
+     public int getTotalWage(String company){
+            return companyToEmpWageMap.get(company).totalEmpWage;
+
+     }
+
      public static void main(String[] args){
 
-             EmpWageComputationDay23 empWageComputation = new EmpWageComputationDay23();
+             IComputeEmpWage empWageComputation = new EmpWageComputationDay23();
              empWageComputation.addCompanyEmpWage("DMart",20,20,100);
              empWageComputation.addCompanyEmpWage("Reliance",10,10,100);
              empWageComputation.computeEmpWage();
+             System.out.println("Total Wage for DMart Company: " + empWageComputation.getTotalWage("DMart"));
      }
 
 }
